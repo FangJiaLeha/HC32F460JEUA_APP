@@ -54,6 +54,6 @@ tags
 #packages
 #bsp/*/
 #pkgs/*/
-soc/*/
+#soc/*/
 rtos/
 .git
