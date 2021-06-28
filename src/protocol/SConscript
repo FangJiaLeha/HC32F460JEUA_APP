@@ -1,0 +1,17 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+print ("protocol SConscript called\n")
+#cwd     = os.path.join(str(Dir('#')), 'applications')
+cwd = GetCurrentDir()
+
+src = Glob('*.c')
+
+CPPPATH = [cwd, str(Dir('#'))]
+group = []
+group += DefineGroup('app_protocol', src, depend = [''] , CPPPATH = CPPPATH)
+
+Return('group')

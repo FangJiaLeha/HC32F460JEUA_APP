@@ -1,0 +1,72 @@
+mainmenu "RT-Thread Configuration"
+
+config APP_DIR
+    string
+    option env="APP_ROOT"
+    default "../src"
+
+config SOC_DIR
+    string
+    option env="SOC_ROOT"
+    default "../soc"
+
+config BSP_DIR
+    string
+    option env="BSP_ROOT"
+    default "../bsp"
+
+config CPKGS_DIR
+    string
+    option env="CPKGS_ROOT"
+    default "../pkgs"
+
+config PKGS_DIR
+    string
+    option env="PKGS_ROOT"
+    default "packages"
+
+config RTT_DIR
+    string
+    option env="RTT_ROOT"
+    default "../rtos"
+
+source "$RTT_DIR/Kconfig"
+source "$PKGS_DIR/Kconfig"
+
+menu "Select Chip Type"
+    choice
+        prompt "Select Chip type"
+        default CHIP_SEL_HC32F460JEUA
+
+        config CHIP_SEL_HC32F460PETB
+        config CHIP_SEL_HC32F460PCTB
+            bool "HC32F460-LQFP100"
+
+        config CHIP_SEL_HC32F460KETA
+        config CHIP_SEL_HC32F460KCTA
+            bool "HC32F460-LQFP64"
+
+        config CHIP_SEL_HC32F460KEUA
+            bool "HC32F460-QFN60TR"
+
+        config CHIP_SEL_HC32F460JETA
+        config CHIP_SEL_HC32F460JCTA
+        config CHIP_SEL_HC32F460JEUA
+            bool "HC32F460-LQFP48/QFN48TR"
+    endchoice
+endmenu
+
+if CHIP_SEL_HC32F460PETB || \
+   CHIP_SEL_HC32F460PCTB || \
+   CHIP_SEL_HC32F460KETA || \
+   CHIP_SEL_HC32F460KCTA || \
+   CHIP_SEL_HC32F460KEUA || \
+   CHIP_SEL_HC32F460JETA || \
+   CHIP_SEL_HC32F460JCTA || \
+   CHIP_SEL_HC32F460JEUA
+    source "$SOC_DIR/soc_hc32f460xxxx/drivers/Kconfig"
+endif
+
+source "$BSP_DIR/Kconfig"
+source "$CPKGS_DIR/Kconfig"
+source "$APP_DIR/Kconfig"

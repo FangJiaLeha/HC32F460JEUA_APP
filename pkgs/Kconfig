@@ -1,0 +1,5 @@
+menu "Pudu C-Packages Config"
+
+source "$CPKGS_DIR/led_ctrl_frame/Kconfig"
+
+endmenu

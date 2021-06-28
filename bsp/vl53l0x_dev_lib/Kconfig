@@ -1,0 +1,37 @@
+menu "VL53L0X"
+
+config BSP_USING_I2C_VL53L0X
+    bool "Using VL53L0X"
+    select RT_USING_I2C
+    default n
+    if BSP_USING_I2C_VL53L0X
+        config BSP_I2C_VL53L0X_BUS
+            string "Set VL53L0X i2c bus name"
+            default i2c0
+
+        config BSP_I2C_VL53L0X_DEV
+            string "Set VL53L0X device name"
+            default vl53l0x
+
+        config BSP_I2C_VL53L0X_ADDRESS
+            int "Set VL53L0X device address"
+            default 0x29
+
+        config BSP_I2C_VL53L0X_XSHUT1_PIN
+            int "Set VL53L0X xshut1 pin"
+            default 21
+
+        config BSP_I2C_VL53L0X_XSHUT2_PIN
+            int "Set VL53L0X xshut2 pin"
+            default 23
+
+        config BSP_I2C_VL53L0X_XSHUT3_PIN
+            int "Set VL53L0X xshut3 pin"
+            default 20
+
+        config BSP_I2C_VL53L0X_XSHUT4_PIN
+            int "Set VL53L0X xshut4 pin"
+            default 22
+    endif
+
+endmenu

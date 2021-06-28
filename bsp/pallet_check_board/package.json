@@ -1,0 +1,8 @@
+{
+    "name":"pallet_check_board",
+    "enable_macro":"ENABLE_PALLET_CHECK_BSP",
+    "dependencies":{},
+    "cfg_path":"cfg/cfg.h",
+    "type":"bsp",
+    "description":"pallet check board support package"
+}

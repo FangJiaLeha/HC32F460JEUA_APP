@@ -1,0 +1,43 @@
+import os
+Import('APP_ROOT')
+Import('SOC_ROOT')
+Import('BSP_ROOT')
+Import('CPKGS_ROOT')
+Import('RTT_ROOT')
+from building import *
+
+objs = []
+
+# current root directory
+cwd = GetCurrentDir()
+list = os.listdir(cwd)
+for item in list:
+    path = os.path.join(cwd, item)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(path, 'SConscript'))
+
+# soc root directory
+cwd = SOC_ROOT
+print(cwd)
+if os.path.isfile(os.path.join(cwd, 'SConscript')):
+    objs = objs + SConscript(os.path.join(cwd, 'SConscript'))
+
+# bsp root directory
+cwd = BSP_ROOT
+print(cwd)
+if os.path.isfile(os.path.join(cwd, 'SConscript')):
+    objs = objs + SConscript(os.path.join(cwd, 'SConscript'))
+
+# cpkgs root directory
+cwd = CPKGS_ROOT
+print(cwd)
+if os.path.isfile(os.path.join(cwd, 'SConscript')):
+    objs = objs + SConscript(os.path.join(cwd, 'SConscript'))
+
+# cpkgs root directory
+cwd = APP_ROOT
+print(cwd)
+if os.path.isfile(os.path.join(cwd, 'SConscript')):
+    objs = objs + SConscript(os.path.join(cwd, 'SConscript'))
+
+Return('objs')

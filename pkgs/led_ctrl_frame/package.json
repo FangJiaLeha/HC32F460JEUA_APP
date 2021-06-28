@@ -1,0 +1,10 @@
+{
+    "name":"led_ctrl_frame",
+    "enable_macro":"USE_LED_FRAME_MOD",
+    "type":"normal",
+    "description":"led灯、灯条、灯珠控制框架",
+    "cfg_path":"",
+    "dependencies":{
+        "rt-thread":""
+    }
+}

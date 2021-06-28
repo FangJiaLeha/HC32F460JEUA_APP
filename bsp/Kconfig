@@ -1,0 +1,10 @@
+menu "Pudu BSP Config"
+
+source "$BSP_DIR/drivers/Kconfig"
+source "$BSP_DIR/pallet_check_board/Kconfig"
+source "$BSP_DIR/pcf8574/Kconfig"
+source "$BSP_DIR/tlc59108/Kconfig"
+source "$BSP_DIR/vl53l0x_dev_lib/Kconfig"
+source "$BSP_DIR/ws2812/Kconfig"
+
+endmenu

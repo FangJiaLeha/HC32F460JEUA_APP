@@ -1,0 +1,18 @@
+{
+    "soc_gd32f30x":{
+        "version":"91a000e702c9a22d0ef64c2a43e907a192d7a60b",
+        "path":"soc\\soc_gd32f30x"
+    },
+    "pallet_check_board":{
+        "version":"8b10a3c8d236832eab5238b52734828af2b0c81b",
+        "path":"bsp\\pallet_check_board"
+    },
+    "rtthread-3.1.4":{
+        "version":"1e8668207ce39077b4cd4c0967d57fc965ad2821",
+        "path":"rtos"
+    },
+    "led_ctrl_frame":{
+        "version":"6d8009ee7f633861cb454c6d9297053fe9c213cc",
+        "path":"pkgs\\led_ctrl_frame"
+    }
+}

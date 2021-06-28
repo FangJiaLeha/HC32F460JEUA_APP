@@ -1,0 +1,21 @@
+menu "TLC59108"
+
+config BSP_USING_I2C_TLC59108
+    bool "Using TLC59108"
+    select RT_USING_I2C
+    default n
+    if BSP_USING_I2C_TLC59108
+        config BSP_I2C_TLC59108_BUS
+            string "Set TLC59108 i2c bus name"
+            default i2c0
+
+        config BSP_I2C_TLC59108_DEV
+            string "Set TLC59108 device name"
+            default tlc59108
+
+        config BSP_I2C_TLC59108_ADDRESS
+            int "Set TLC59108 device address"
+            default 0x4F
+    endif
+
+endmenu

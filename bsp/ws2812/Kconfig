@@ -1,0 +1,20 @@
+menu "WS2812"
+
+config BSP_USING_PWM_WS2812
+    bool "Using WS2812"
+    default n
+    if BSP_USING_PWM_WS2812
+        config BSP_PWM_WS2812_PWMX
+            string "Set WS2812 pwm interface"
+            default pwm3
+
+        config BSP_PWM_WS2812_PWM_CHANNEL
+            int "Set WS2812 pwm channel"
+            default 2
+
+        config BSP_PWM_WS2812_DEV
+            string "Set TLC59108 device name"
+            default ws2812
+    endif
+
+endmenu

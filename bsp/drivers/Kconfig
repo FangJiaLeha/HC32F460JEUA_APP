@@ -1,0 +1,7 @@
+menu "Device Drivers"
+
+config RT_USING_ONEWIRE
+    bool "Using one-wire device drivers"
+    default n
+
+endmenu

@@ -1,0 +1,14 @@
+{
+    "group_name":"led_ctrl_frame",
+    "include_paths":[],
+    "cflags":"",
+    "linkflags":"",
+    "defines":{},
+    "pkg_depends":[
+        "USE_RT_THREAD_OS",
+        "USE_LED_FRAME_MOD"
+    ],
+    "sources":{
+        "led_frame.c":""
+    }
+}

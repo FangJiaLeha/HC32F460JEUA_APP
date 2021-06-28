@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+print ("tasks SConscript called\n")
+#cwd     = os.path.join(str(Dir('#')), 'applications')
+cwd = GetCurrentDir()
+
+src = Glob('*.c')
+
+CPPPATH = [cwd, str(Dir('#'))]
+
+group = DefineGroup('tasks', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

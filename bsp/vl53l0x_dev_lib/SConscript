@@ -1,0 +1,27 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+Import('RTT_ROOT')
+from building import *
+
+cwd = GetCurrentDir()
+
+src = Split("""
+core/src/vl53l0x_api_calibration.c
+core/src/vl53l0x_api_core.c
+core/src/vl53l0x_api_ranging.c
+core/src/vl53l0x_api_strings.c
+core/src/vl53l0x_api.c
+""")
+
+
+# The set of source files associated with this SConscript file.
+path = [cwd + '/core/inc', cwd + '/platform/inc']
+group = []
+group += DefineGroup('vl53l0x_dev_lib', src, depend = ['BSP_USING_I2C_VL53L0X'], CPPPATH = path)
+
+src = Glob('*.c')
+path = [cwd]
+group += DefineGroup('bsp', src, depend = ['BSP_USING_I2C_VL53L0X'], CPPPATH = path)
+
+Return('group')

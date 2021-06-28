@@ -1,0 +1,8 @@
+menu "led ctrl frame"
+
+config BSP_USING_LED_FRAME_MOD
+    bool "Using TLC59108"
+    select RT_USING_I2C
+    default n
+
+endmenu

@@ -1,0 +1,25 @@
+{
+    "name":"pallet_check_gd32",
+    "dependencies":{
+        "rtthread-3.1.4":"",
+        "soc_gd32f30x":"",
+        "pallet_check_board":"",
+    },
+    "soc_model":"GD32F303RC",
+    "app_image_offset":"0",
+    "compiler_cfgs":{
+        "type":"keil",
+        "platform":"armcc",
+        "bin_root":"C:/Keil_v5/arm/bin40/",
+        "cc":"armcc",
+        "as":"armasm",
+        "ar":"armar",
+        "link":"armlink",
+        "target_ext":"axf",
+        "device":" --device DARMSTM",
+        "cflags":" --device DARMSTM --apcs=interwork -IC:/Keil_v5/ARM/RV31/INC -O2",
+        "aflags":" --device DARMSTM",
+        "lflags":" --device DARMSTM --info sizes --info totals --info unused --info veneers --list rtthread-gd32.map --scatter image_scatter.sct  --libpath C:/Keil_v5/ARM/RV31/LIB",
+        "post_action":"fromelf --i32combined $TARGET --output output.hex;fromelf --bin $TARGET --output output.bin;fromelf -z $TARGET"
+    }
+}

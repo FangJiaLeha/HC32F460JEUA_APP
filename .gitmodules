@@ -1,0 +1,8 @@
+[submodule "rtos"]
+	path = rtos
+	url = http://gitlab.pudu.work/rt-thread/rtos-packages/rtthread-3.1.4.git
+	branch = master
+[submodule "soc/soc_hc32f460xxxx"]
+	path = soc/soc_hc32f460xxxx
+	url = http://gitlab.pudu.work/rt-thread/soc-packages/soc_hc32f460xxxx.git
+	branch = master

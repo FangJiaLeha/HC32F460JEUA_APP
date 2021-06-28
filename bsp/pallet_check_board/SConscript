@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd = GetCurrentDir()
+CPPPATH = [cwd]
+
+# add the general drivers.
+src = []
+
+if GetDepend("BSP_USING_PALLET_LED_BAR"):
+    src += ['pallet_led_bar.c']
+    
+if GetDepend("BSP_USING_HEARTBEAT_LED"):
+    src += ["heartbeat_led.c"]
+
+
+
+group = DefineGroup( 'bsp_pallet_check', src, depend = [], CPPPATH = CPPPATH )
+
+Return('group')

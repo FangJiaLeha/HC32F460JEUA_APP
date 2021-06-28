@@ -1,0 +1,20 @@
+import os
+import rtconfig
+from building import *
+
+cwd = GetCurrentDir()
+objs = []
+if (GetDepend('CHIP_SEL_HC32F460PETB') or 
+    GetDepend('CHIP_SEL_HC32F460PCTB') or
+    GetDepend('CHIP_SEL_HC32F460KETA') or
+    GetDepend('CHIP_SEL_HC32F460KCTA') or
+    GetDepend('CHIP_SEL_HC32F460KEUA') or
+    GetDepend('CHIP_SEL_HC32F460JETA') or
+    GetDepend('CHIP_SEL_HC32F460JCTA') or
+    GetDepend('CHIP_SEL_HC32F460JEUA')):
+    path = os.path.join(cwd, 'soc_hc32f460xxxx')
+    print(path)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(path, 'SConscript'))
+
+Return('objs')

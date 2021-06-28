@@ -1,0 +1,64 @@
+import os
+import sys
+import rtconfig
+
+if os.getenv('APP_ROOT'):
+    APP_ROOT = os.getenv('APP_ROOT')
+else:
+    APP_ROOT = os.path.normpath(os.getcwd() + '/../src')
+
+if os.getenv('SOC_ROOT'):
+    SOC_ROOT = os.getenv('SOC_ROOT')
+else:
+    SOC_ROOT = os.path.normpath(os.getcwd() + '/../soc')
+
+if os.getenv('BSP_ROOT'):
+    BSP_ROOT = os.getenv('BSP_ROOT')
+else:
+    BSP_ROOT = os.path.normpath(os.getcwd() + '/../bsp')
+
+if os.getenv('CPKGS_ROOT'):
+    CPKGS_ROOT = os.getenv('CPKGS_ROOT')
+else:
+    CPKGS_ROOT = os.path.normpath(os.getcwd() + '/../pkgs')
+
+if os.getenv('RTT_ROOT'):
+    RTT_ROOT = os.getenv('RTT_ROOT')
+else:
+    RTT_ROOT = os.path.normpath(os.getcwd() + '/../rtos')
+
+sys.path = sys.path + [os.path.join(RTT_ROOT, 'tools')]
+try:
+    from building import *
+except:
+    print('Cannot found RT-Thread root directory, please check RTT_ROOT')
+    print(RTT_ROOT)
+    exit(-1)
+
+TARGET = 'rtthread.' + rtconfig.TARGET_EXT
+
+DefaultEnvironment(tools=[])
+env = Environment(tools = ['mingw'],
+    AS = rtconfig.AS, ASFLAGS = rtconfig.AFLAGS,
+    CC = rtconfig.CC, CCFLAGS = rtconfig.CFLAGS,
+    AR = rtconfig.AR, ARFLAGS = '-rc',
+    LINK = rtconfig.LINK, LINKFLAGS = rtconfig.LFLAGS)
+env.PrependENVPath('PATH', rtconfig.EXEC_PATH)
+
+if rtconfig.PLATFORM == 'iar':
+    env.Replace(CCCOM = ['$CC $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -o $TARGET $SOURCES'])
+    env.Replace(ARFLAGS = [''])
+    env.Replace(LINKCOM = env["LINKCOM"] + ' --map project.map')
+
+Export('APP_ROOT')
+Export('SOC_ROOT')
+Export('BSP_ROOT')
+Export('CPKGS_ROOT')
+Export('RTT_ROOT')
+Export('rtconfig')
+
+# prepare building environment
+objs = PrepareBuilding(env, RTT_ROOT, has_libcpu=False)
+
+# make a building
+DoBuilding(TARGET, objs)

@@ -1,0 +1,29 @@
+menu "BSP Pallet Check"
+
+config BSP_USING_PALLET_LED_BAR
+    bool "Using PALLET LED BAR"
+    default n
+    if BSP_USING_PALLET_LED_BAR
+        config BSP_PALLET_LED_BAR_PWMX
+            string "Set PALLET LED BAR pwm interface"
+            default pwm0
+
+        config BSP_PALLET_LED_BAR_CHANNEL
+            int "Set PALLET LED BAR pwm channel"
+            default 0
+
+        config BSP_PALLET_LED_BAR_DEV
+            string "Set PALLET LED BAR device name"
+            default PLedBar
+    endif
+
+config BSP_USING_HEARTBEAT_LED
+    bool "Using HEARTBEAT LED"
+    default n
+    if BSP_USING_HEARTBEAT_LED
+        config BSP_HEARTBEAT_PIN
+            int "Set HEARTBEAT LED pin number"
+            default 0
+    endif
+
+endmenu

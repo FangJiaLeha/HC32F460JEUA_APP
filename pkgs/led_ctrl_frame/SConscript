@@ -1,0 +1,12 @@
+#! /usr/bin/env python
+# -*- encoding: utf-8 -*-
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd = GetCurrentDir()
+src = ['led_frame.c',]
+
+CPPPATH = [cwd]
+group = DefineGroup('led_ctrl_frame', src, depend = ['BSP_USING_LED_FRAME_MOD'], CPPPATH = CPPPATH)
+Return('group')
