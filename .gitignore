@@ -40,7 +40,7 @@ tags
 *.ewp
 *.ewt
 *.eww
-*.uvguix.Administrator
+*.uvguix.*
 *.uvoptx
 *.uvprojx
 !template.ewd

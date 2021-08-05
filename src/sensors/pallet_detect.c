@@ -74,11 +74,11 @@ int pallet_state( void )
     for( i=0; i < 4; i++ )
     {
         rt_kprintf( "layer:%d\n", i+1 );
-//        rt_kprintf( "pallet installed:%d, placed:%d\n", pallet[i].installed, pallet[i].placed );
+        rt_kprintf( "pallet installed:%d, placed:%d\n", pallet.installed, pallet.placed );
         rt_kprintf( "    sensor distance:\n");
         for( m = 0; m < 4; m++ )
         {
-//            rt_kprintf( "        sensor:%d distance:%d mm\n", i+1, pallet[i].distance[m]);
+            rt_kprintf( "        sensor:%d distance:%d mm\n", i+1, pallet.distance[m]);
         }
     }
     rt_kprintf( "\n");
@@ -368,7 +368,6 @@ err_t pallet_init( void )
     pallet.installed = is_pallet_installed();
 
     init_layer_vl53l0x_dev( );
-
     
     set_i2c_bus_state( 0 );
 

@@ -26,4 +26,5 @@ uint8_t get_init_state( void );
 
 uint8_t get_pallet_id( void );
 
+uint8_t is_pallet_installed(void);
 #endif

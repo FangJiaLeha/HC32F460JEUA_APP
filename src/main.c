@@ -15,9 +15,9 @@
 
 #include "includes.h"
 
-#define PAN_PIN       28
-#define DIP_2POS_PIN0 3
-#define DIP_2POS_PIN1 2
+#define PAN_PIN       30
+#define DIP_2POS_PIN0 29
+#define DIP_2POS_PIN1 28
 
 static uint8_t init_state = 0;
 static uint8_t pallet_id = 0;
@@ -40,7 +40,7 @@ uint8_t get_pallet_id( void )
 
 uint8_t is_pallet_installed(void)
 {
-    if (rt_pin_read(PAN_PIN))
+    if (rt_pin_read(PAN_PIN)) // 默认上拉
     {
         return 0;
     }
@@ -53,12 +53,12 @@ uint8_t get_pallet_id_low( void )
 {
     uint8_t id = 0;
 
-    if (rt_pin_read(DIP_2POS_PIN0))
+    if (rt_pin_read(DIP_2POS_PIN1))
     {
         id |= 0x01;
     }
 
-    if (rt_pin_read(DIP_2POS_PIN1))
+    if (rt_pin_read(DIP_2POS_PIN0))
     {
         id |= 0x02;
     }
@@ -75,8 +75,6 @@ static void bsp_gpio_init(void)
 
 static void app_thread_startup(void)
 {
-    rt_err_t err_result;
-
     bsp_gpio_init();
     
     set_init_state( 0 );
@@ -125,7 +123,3 @@ int main(void)
 
     return 0;
 }
-
-
-
-
