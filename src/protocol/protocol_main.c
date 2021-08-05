@@ -134,11 +134,12 @@ int pallet_feedback( uint8_t pallet_id, uint8_t stype, uint8_t state )
 {
     struct rt_can_msg send_msg;
 
+    rt_memset( (void *)&send_msg, 0, sizeof(send_msg) ); // Can single FIFO transmission. Solves the problem that can data frames sometimes fail to be sent
     send_msg.id = get_pallet_id() + 7;
     send_msg.ide = 0;
     send_msg.rtr = 0;
     send_msg.len = 8;
-    rt_memset( send_msg.data, 0, 8 );
+    //rt_memset( send_msg.data, 0, 8 );
     send_msg.data[0] = 0x91;
     send_msg.data[1] = 2;
     send_msg.data[2] = pallet_id;
@@ -208,6 +209,7 @@ void protocol_process_entry( void* arg )
 
     rt_sem_init( &recv_sem, "CanSem", 0, RT_IPC_FLAG_FIFO );
     rt_mutex_init( &recv_mtx, "CanMtx", RT_IPC_FLAG_FIFO );
+    memset((void *)&send_msg, 0, sizeof(struct rt_can_msg)); // Can single FIFO transmission. Solves the problem that can data frames sometimes fail to be sent
 
     filter_item[0].id = get_pallet_id() + 7;
     filter_item[0].ide = 0;

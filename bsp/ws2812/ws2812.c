@@ -23,12 +23,10 @@
 #define TIMING_ONE  1133
 #define TIMING_ZERO 533
 #else
-#define TIMING_WIDTH          1250
-#define RESET_BITS_COUNT      ((60000 + TIMING_WIDTH - 1) / TIMING_WIDTH)
-#define TIMING_ONE  850
-#define TIMING_ZERO 400
-//#define TIMING_ONE  958
-//#define TIMING_ZERO 319
+#define TIMING_WIDTH          1250u
+#define RESET_BITS_COUNT      ((300000 + TIMING_WIDTH - 1) / TIMING_WIDTH)
+#define TIMING_ONE            850u
+#define TIMING_ZERO           (TIMING_WIDTH-TIMING_ONE)
 #endif
 
 static rt_err_t _update_led_data( struct WS2812_DEV *ws_dev, uint32_t pos, uint32_t count )
@@ -52,7 +50,8 @@ static rt_err_t _update_led_data( struct WS2812_DEV *ws_dev, uint32_t pos, uint3
         count = ws_dev->led_num - pos;
     }
 
-    pulse_size = RESET_BITS_COUNT + ws_dev->led_num * 3 * 8;
+    //pulse_size = RESET_BITS_COUNT + ws_dev->led_num * 3 * 8;
+    pulse_size = RESET_BITS_COUNT*2 + ws_dev->led_num * 3 * 8; // Temporarily solve the problem of the first lamp status delay of ws2812
     pulse_buff = (uint16_t *)rt_malloc(sizeof(uint16_t) * pulse_size);
     rt_memset(pulse_buff, 0x00, sizeof(uint16_t) * pulse_size);
     LOG_I("color[%d~%d]:", pos, pos + count);
@@ -261,7 +260,6 @@ static rt_err_t _control( rt_device_t dev, int cmd, void *arg )
         }
         ws_dev->led_num = *led_num;
         rt_memset( ws_dev->render_buff, 0, ( *led_num ) * 3 );
-        _update_led_data( ws_dev, 0, ws_dev->led_num );
         rt_mutex_release( &ws_dev->lock );
 
     } else if ( cmd == WS2812_CTRL_GET_DISBUFF ) {
@@ -269,7 +267,7 @@ static rt_err_t _control( rt_device_t dev, int cmd, void *arg )
         *dis_buff = ws_dev->render_buff;
     } else if( cmd == WS2812_CTRL_UPDATE_DEVDATA ) {
         rt_mutex_take( &ws_dev->lock, RT_WAITING_FOREVER );
-//        _update_led_data( ws_dev, 0, ws_dev->led_num );
+        _update_led_data( ws_dev, 0, ws_dev->led_num );
         ws_dev->need_update = 1;
         rt_mutex_release( &ws_dev->lock );
     } else if( cmd == WS2812_CTRL_BAR_COLOR ) {

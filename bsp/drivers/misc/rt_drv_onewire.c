@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-03-11     kyle         the first version
+ * 2021-08-03     FangJ.Le     Add some macro
  */
 
 #include <string.h>
@@ -20,6 +21,11 @@
 #define DBG_LVL               DBG_INFO
 #endif
 #include <rtdbg.h>
+
+#define TIMERA_PERIOD   1250u
+#define HIGH_LEVEL      850u
+#define LOW_LEVEL       (TIMERA_PERIOD-HIGH_LEVEL)
+#define RESET_TIME_NS   (300000l)
 
 static rt_err_t _onewire_init(rt_device_t dev)
 {
@@ -197,7 +203,7 @@ rt_err_t rt_onewire_write(struct rt_device_onewire *device, int channel, const u
     }
 
     configuration.channel = channel;
-    configuration.period = 1250;
+    configuration.period = TIMERA_PERIOD;
     configuration.pulse  = 0;
     result = rt_device_control(&device->parent, ONEWIRE_CMD_SET, &configuration);    
     if (result != RT_EOK)
@@ -207,9 +213,9 @@ rt_err_t rt_onewire_write(struct rt_device_onewire *device, int channel, const u
 
     LOG_HEX(DBG_TAG, 3, (rt_uint8_t *)buff, size);
 
-    res_num = ((60000 + 1250 - 1) / 1250);
-    pulse_size = res_num + 8*size;
-    pulse_buff = (uint16_t *)rt_malloc(sizeof(uint16_t) * pulse_size);
+    res_num = ((RESET_TIME_NS + TIMERA_PERIOD - 1) / TIMERA_PERIOD);
+    pulse_size = res_num + 8*size; // 脉冲数
+    pulse_buff = (uint16_t *)rt_malloc(sizeof(uint16_t) * pulse_size); // 脉冲buff
     rt_memset(pulse_buff, 0x00, sizeof(uint16_t) * pulse_size);
     for (i = 0; i < size; i++)
     {
@@ -217,10 +223,10 @@ rt_err_t rt_onewire_write(struct rt_device_onewire *device, int channel, const u
         {
             if (buff[i] & (1U << (7 - j)))
             {
-                pulse_buff[res_num + i*8 + j] = 850;
+                pulse_buff[res_num + i*8 + j] = HIGH_LEVEL;
             }
             else {
-                pulse_buff[res_num + i*8 + j] = 400;
+                pulse_buff[res_num + i*8 + j] = LOW_LEVEL;
             }
         }
     }
@@ -250,7 +256,7 @@ static int onewire_enable(int argc, char **argv)
 
     if (argc != 3)
     {
-        rt_kprintf("Usage: onewire_enable onewire1 1\n");
+        rt_kprintf("Usage(default): onewire_enable onewire3 2\n");
         result = -RT_ERROR;
         goto _exit;
     }
@@ -267,7 +273,7 @@ static int onewire_enable(int argc, char **argv)
 _exit:
     return result;
 }
-MSH_CMD_EXPORT(onewire_enable, onewire_enable onewire1 1);
+MSH_CMD_EXPORT(onewire_enable, onewire_enable onewire3 2);
 
 static int onewire_disable(int argc, char **argv)
 {
@@ -276,7 +282,7 @@ static int onewire_disable(int argc, char **argv)
 
     if (argc != 3)
     {
-        rt_kprintf("Usage: onewire_disable onewire1 1\n");
+        rt_kprintf("Usage(default): onewire_disable onewire3 2\n");
         result = -RT_ERROR;
         goto _exit;
     }
@@ -293,7 +299,7 @@ static int onewire_disable(int argc, char **argv)
 _exit:
     return result;
 }
-MSH_CMD_EXPORT(onewire_disable, onewire_disable onewire1 1);
+MSH_CMD_EXPORT(onewire_disable, onewire_disable onewire3 2);
 
 static int onewire_set(int argc, char **argv)
 {
@@ -302,7 +308,7 @@ static int onewire_set(int argc, char **argv)
 
     if (argc != 5)
     {
-        rt_kprintf("Usage: onewire_set onewire1 1 100 50\n");
+        rt_kprintf("Usage(default): onewire_set onewire3 2 100 50\n");
         result = -RT_ERROR;
         goto _exit;
     }
@@ -319,7 +325,7 @@ static int onewire_set(int argc, char **argv)
 _exit:
     return result;
 }
-MSH_CMD_EXPORT(onewire_set, onewire_set onewire1 1 100 50);
+MSH_CMD_EXPORT(onewire_set, onewire_set onewire3 2 100 50);
 
 static int onewire_write(int argc, char **argv)
 {
@@ -331,7 +337,7 @@ static int onewire_write(int argc, char **argv)
 
     if (argc < 4)
     {
-        rt_kprintf("Usage: onewire_write onewire1 1 0x01 0x02\n");
+        rt_kprintf("Usage(default): onewire_write onewire3 2 255 255 255\n");
         result = -RT_ERROR;
         goto _exit;
     }
@@ -356,7 +362,7 @@ static int onewire_write(int argc, char **argv)
 _exit:
     return result;
 }
-MSH_CMD_EXPORT(onewire_write, onewire_write onewire1 1 0x01 0x02);
+MSH_CMD_EXPORT(onewire_write, onewire_write onewire3 2 255 255 255);
 
 #endif /* FINSH_USING_MSH */
 #endif /* RT_USING_FINSH */

@@ -70,7 +70,7 @@
  * 当前程序版本，即如果PROGRAM_ROLE为ROLE_BOOTLOADER则PROGRAM_VERSION为bootloader版本号，
  * 版本编码规则参考@ref
  */
-#define PROGRAM_VERSION			MK_PROGRAM_VERSION( 0, 1 , 8 )
+#define PROGRAM_VERSION			MK_PROGRAM_VERSION( 1, 0, 0)//MK_PROGRAM_VERSION( 0, 1, 8 )
 
 /**
  * 配置当前硬件版本，版本编码规则参考 @ref

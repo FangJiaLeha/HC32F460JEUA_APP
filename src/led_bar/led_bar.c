@@ -187,8 +187,7 @@ void led_bar_control( uint16_t id,
     uint32_t arg;
 
     *ret_len = 0;
-    if( ( req_len < 8 ) || ( req[2] > 7 ) || ( req[1] > 11 ) 
-        || (req[1] == 0 )
+    if( ( req_len < 8 ) || ( req[2] > 7 ) || ( req[1] > 11 ) || (req[1] == 0 )
             /* || ( BCC_CheckSum( req, 7 ) != req[7] ) */ )
     {
         return;
@@ -252,6 +251,7 @@ void led_bar_control( uint16_t id,
     
 }
 
+/*灯呼吸模式控制*/
 void led_bar_sectrl_control(uint16_t id, 
                          uint8_t *req, 
                          uint8_t req_len, 
@@ -376,7 +376,6 @@ void init_led_bars( void )
     {
         rt_device_open( pled_dev, RT_DEVICE_OFLAG_RDWR );
         init_led_bar( &led_bar_pallet, 1, pallet_bar_set_color, pled_dev );
-
     }
 
     for( i = 0; i < 3; i++ )
