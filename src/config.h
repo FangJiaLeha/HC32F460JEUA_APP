@@ -71,8 +71,9 @@
  * 版本编码规则参考@ref
  * @brief   V1.0.0  The first version
  *          V1.0.1  Adaptive I2C voltage conversion chip from 3V3 to 2V8
+ *          V1.0.2  Modify the system clock from 8M to 12M and fix the usart can not send data bug
  */
-#define PROGRAM_VERSION			MK_PROGRAM_VERSION( 1, 0, 1)//MK_PROGRAM_VERSION( 0, 1, 8 )
+#define PROGRAM_VERSION			MK_PROGRAM_VERSION( 1, 0, 2)//MK_PROGRAM_VERSION( 0, 1, 8 )
 
 /**
  * 配置当前硬件版本，版本编码规则参考 @ref
