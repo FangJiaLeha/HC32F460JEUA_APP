@@ -57,3 +57,7 @@ tags
 #soc/*/
 rtos/
 .git
+project/HC32/*.crf
+project/HC32/*.ied
+project/HC32/*.htm
+project/HC32/*.lnp

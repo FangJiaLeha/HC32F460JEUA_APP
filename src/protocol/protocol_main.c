@@ -9,6 +9,8 @@
  * 
  */
 #include "includes.h"
+#include "iap.h"
+#include "iap_config.h"
 
 static rt_device_t can_dev = RT_NULL;
 static struct rt_can_filter_item filter_item[1];
@@ -37,13 +39,13 @@ static void request_server(uint16_t id,
     }
 }
 
-const struct PCMD cmds[4] = {
+const struct PCMD cmds[] = {
 
     { 0x00, request_server },
-    // /**
-    //  * 升级支持协议
-    //  */
-    // { 0x16, iap_control },
+     /**
+      * @brief 升级支持协议
+      */
+    { 0x16, iap_control },
 
     /**
      * @brief 灯条控制协议
@@ -182,6 +184,14 @@ static rt_err_t can_rx_ind(rt_device_t dev, rt_size_t size)
     return RT_EOK;
 }
 
+static void enable_firmware_update(void)
+{
+    __disable_irq();
+    ResetSignature[0] = RESET_SIGNATURE0_UPDATE_FIRMWARE;
+    ResetSignature[1] = RESET_SIGNATURE1_UPDATE_FIRMWARE;
+    NVIC_SystemReset();
+}
+
 #ifdef RT_CAN_USING_HDR
 static rt_err_t can_filter_cb( rt_device_t dev, void *arg, rt_int32_t hdr, rt_size_t size )
 {
@@ -263,6 +273,12 @@ void protocol_process_entry( void* arg )
             can_lock();
             rt_device_write( can_dev, 0, (void *)&send_msg, sizeof(msg) );
             can_unlock();
+
+            // app software reset to boot mode
+            if (send_msg.data[0] == 0x16 && send_msg.data[1] == send_msg.id &&
+                send_msg.data[2] == 0x01) {
+                    enable_firmware_update();
+            }
         }
     }
 }
