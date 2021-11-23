@@ -57,3 +57,4 @@ tags
 #soc/*/
 rtos/
 .git
+project/HC32/*
