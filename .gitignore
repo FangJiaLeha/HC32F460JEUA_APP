@@ -42,7 +42,6 @@ tags
 *.eww
 *.uvguix.*
 *.uvoptx
-*.uvprojx
 !template.ewd
 !template.ewp
 !template.ewt
@@ -57,11 +56,4 @@ tags
 #soc/*/
 rtos/
 .git
-<<<<<<< HEAD
 project/HC32/*
-=======
-project/HC32/*.crf
-project/HC32/*.ied
-project/HC32/*.htm
-project/HC32/*.lnp
->>>>>>> feat/add_iap
